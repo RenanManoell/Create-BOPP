@@ -1,9 +1,9 @@
 function doGet() {
-  return HtmlService.createHtmlOutputFromFile('index').setTitle('Gerador de etiqueta BOPP HYUNDAI');
+  return HtmlService.createHtmlOutputFromFile('index').setTitle('Gerador de etiqueta BOPP');
 }
 
 function processSpreadsheet() {
-  const url = "https://docs.google.com/spreadsheets/d/1FKG2b4pvQnMqVaf9htNCfleSVVtjUgJ1TOzbMHjSuCM/edit?usp=sharing";
+  const url = "Arquivo compartilhado para gerar as etiquetas";
   const spreadsheet = SpreadsheetApp.openByUrl(url);
   const sheet = spreadsheet.getSheets()[0];
   const range = sheet.getDataRange();
