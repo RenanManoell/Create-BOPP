@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    /* Estilos para a página inteira */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f9fc;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #4a90e2;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    button {
+      background-color: #4a90e2;
+      color: white;
+      font-size: 1rem;
+      font-weight: bold;
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #357ABD;
+      transform: scale(1.05);
+    }
+
+    button:active {
+      background-color: #2c5f8a;
+    }
+
+    #labelContainer {
+      width: 16cm;
+      height: 6cm;
+      margin-top: 10px;
+      position: relative;
+    }
+
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #labelContainer, #labelContainer * {
+        visibility: visible;
+      }
+      
+      #labelContainer {
+        margin-top: 0;
+        width: auto;
+        height: 16.5cm;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+
+      #label {
+        width: 16.5cm;
+        height: 16.5cm;
+        transform: rotate(-90deg);
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+
+  <!-- Inclusão das bibliotecas JsBarcode e QRCode.js -->
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+  <h1>Gerador de Etiquetas de Posição HYUNDAI</h1>
+  <h2>Codigo de barras 39</h2>
+  
+  <button type="button" onclick="generateLabels()">Gerar Etiquetas</button>
+  <button type="button" onclick="printLabels()">Imprimir Etiquetas</button>
+  
+  <a href="https://docs.google.com/spreadsheets/d/1FKG2b4pvQnMqVaf9htNCfleSVVtjUgJ1TOzbMHjSuCM/edit?usp=sharing" target="_blank">
+    <button>Abrir Planilha</button>
+  </a>
+  
+  <div id="labelContainer"></div> <!-- Contêiner das etiquetas -->
+  
+  <script>
+    function generateLabels() {
+      google.script.run.withSuccessHandler(displayLabels).processSpreadsheet();
+    }
+
+    function displayLabels(html) {
+      document.getElementById('labelContainer').innerHTML = html;
+
+      // Após a etiqueta ser carregada, gera os códigos localmente
+      document.querySelectorAll('.barcode').forEach(element => {
+        const code = element.getAttribute('data-code');
+        JsBarcode(element, code, { format: 'CODE39', width: 1.7, height: 60 , displayValue: false });
+      });
+
+      document.querySelectorAll('.qrcode').forEach(element => {
+        const code = element.getAttribute('data-code');
+        new QRCode(element, {
+          text: code,
+          width: 70,
+          height: 70,
+        });
+      });
+
+      document.querySelectorAll('.qrcodeMenor').forEach(element => {
+        const code = element.getAttribute('data-code');
+        new QRCode(element, {
+          text: code,
+          width: 60,
+          height: 60,
+        });
+      });
+    }
+
+    function printLabels() {
+      window.print();
+    }
+  </script>
+</body>
+</html>
