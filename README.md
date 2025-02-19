@@ -1,4 +1,4 @@
-# 🚀 Gerador de Etiquetas de Posição HYUNDAI
+# 🚀 Gerador de Etiquetas de Posição BOPP
 
 Um **AppScript** desenvolvido para automatizar a geração de etiquetas de posição com códigos de barras e QR Codes, a partir de dados em uma planilha do Google Sheets. Ideal para processos de logística, estoque e organização.
 
